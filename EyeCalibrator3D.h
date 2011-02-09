@@ -31,4 +31,38 @@ private:
 };
 
 
+class EyeCalibrator : public Calibrator {
+    
+protected:
+    int inputIndexH, inputIndexV, outputIndexH, outputIndexV;
+    int HfunctionIndex, VfunctionIndex;
+    MWTime HsampleTime;
+    MWTime lastHtimeUS;
+    MWTime nextTimeToWarnUS;
+    PairedEyeData *pairedEyeData;
+    
+    Datum desiredH, desiredV;
+    Datum sampledH, sampledV;
+    Datum calibratedH, calibratedV;
+    virtual void announceCalibrationUpdate();
+    virtual void setPrivateParameters(); 
+    virtual void announceCalibrationSample(int outputIndex, Datum SampledData, 
+                                           Datum DesiredOutputData, Datum CalibratedOutputData, MWTime timeOfSampleUS);
+    virtual void tryToUseDataToSetParameters(Datum original_data);
+    
+    
+public:
+    EyeCalibrator(std::string _tag, shared_ptr<Variable> _eyeHraw, shared_ptr<Variable> _eyeVraw,
+                  shared_ptr<Variable> _eyeHcalibrated, shared_ptr<Variable> _eyeVcalibrated, const int order=2);
+    virtual ~EyeCalibrator();
+    virtual void notifyRequest(const Datum& original_data, MWTime timeUS);
+    virtual void notifyPrivate(const Datum& original_data, MWTime timeUS);
+    
+    // override base class so that we can wait for paired samples
+    virtual void newDataReceived(int inputIndex, const Datum& data, 
+                                 MWTime timeUS);
+    
+};
+
+
 #endif

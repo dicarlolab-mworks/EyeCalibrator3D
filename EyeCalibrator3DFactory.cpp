@@ -35,3 +35,28 @@ shared_ptr<mw::Component> EyeCalibrator3DFactory::createObject(std::map<std::str
     
     return newComponent;
 }
+
+
+shared_ptr<mw::Component> EyeCalibratorFactory::createObject(std::map<std::string, std::string> parameters,
+                                                             ComponentRegistry *reg) {
+    REQUIRE_ATTRIBUTES(parameters, "tag", "eyeh_raw", "eyeh_calibrated", "eyev_raw", "eyev_calibrated");
+    
+    std::string tagname(parameters.find("tag")->second);
+    shared_ptr<Variable> eyeh_raw = reg->getVariable(parameters.find("eyeh_raw")->second);    
+    shared_ptr<Variable> eyev_raw = reg->getVariable(parameters.find("eyev_raw")->second);    
+    shared_ptr<Variable> eyeh_calibrated = reg->getVariable(parameters.find("eyeh_calibrated")->second);    
+    shared_ptr<Variable> eyev_calibrated = reg->getVariable(parameters.find("eyev_calibrated")->second);    
+    
+    checkAttribute(eyeh_raw, parameters["reference_id"], "eyeh_raw", parameters.find("eyeh_raw")->second);
+    checkAttribute(eyev_raw, parameters["reference_id"], "eyev_raw", parameters.find("eyev_raw")->second);
+    checkAttribute(eyeh_calibrated, parameters["reference_id"], "eyeh_calibrated", parameters.find("eyeh_calibrated")->second);
+    checkAttribute(eyev_calibrated, parameters["reference_id"], "eyev_calibrated", parameters.find("eyev_calibrated")->second);
+    
+    shared_ptr <mw::Component> newEyeCalibrator = shared_ptr<mw::Component>(new EyeCalibrator(tagname, 
+                                                                                              eyeh_raw, 
+                                                                                              eyev_raw,
+                                                                                              eyeh_calibrated,
+                                                                                              eyev_calibrated,
+                                                                                              2));
+    return newEyeCalibrator;
+}
