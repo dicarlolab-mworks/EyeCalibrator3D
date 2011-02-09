@@ -10,28 +10,12 @@
 #ifndef EyeCalibrator3D_H_
 #define EyeCalibrator3D_H_
 
-#include <MWorksCore/Component.h>
-#include <MWorksCore/GenericVariable.h>
+#include <MWorksCore/EyeCalibrators.h>
 
 using namespace mw;
 
 
-class EyeCalibrator3D : public mw::Component {
-
-public:
-    EyeCalibrator3D(const std::string &tag, shared_ptr<Variable> anotherAttribute);
-
-    virtual ~EyeCalibrator3D();
-    
-private:
-    EyeCalibrator3D(const EyeCalibrator3D &other);
-    
-    shared_ptr<Variable> anotherAttribute;
-
-};
-
-
-class EyeCalibrator : public Calibrator {
+class EyeCalibrator3D : public mw::Calibrator {
     
 protected:
     int inputIndexH, inputIndexV, outputIndexH, outputIndexV;
@@ -52,15 +36,18 @@ protected:
     
     
 public:
-    EyeCalibrator(std::string _tag, shared_ptr<Variable> _eyeHraw, shared_ptr<Variable> _eyeVraw,
+    EyeCalibrator3D(const std::string &_tag, shared_ptr<Variable> _eyeHraw, shared_ptr<Variable> _eyeVraw,
                   shared_ptr<Variable> _eyeHcalibrated, shared_ptr<Variable> _eyeVcalibrated, const int order=2);
-    virtual ~EyeCalibrator();
+    virtual ~EyeCalibrator3D();
     virtual void notifyRequest(const Datum& original_data, MWTime timeUS);
     virtual void notifyPrivate(const Datum& original_data, MWTime timeUS);
     
     // override base class so that we can wait for paired samples
     virtual void newDataReceived(int inputIndex, const Datum& data, 
                                  MWTime timeUS);
+    
+private:
+    EyeCalibrator3D(const EyeCalibrator3D &other);
     
 };
 

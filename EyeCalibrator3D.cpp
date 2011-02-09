@@ -9,15 +9,7 @@
 
 #include "EyeCalibrator3D.h"
 
-
-EyeCalibrator3D::EyeCalibrator3D(const std::string &tag,
-                                                             shared_ptr<Variable> anotherAttribute) :
-    mw::Component(tag),
-    anotherAttribute(anotherAttribute)
-{ }
-
-
-EyeCalibrator3D::~EyeCalibrator3D() { }
+#define VERBOSE_EYE_CALIBRATORS 0
 
 
 // here we define a particular calibrator class by 
@@ -26,13 +18,13 @@ EyeCalibrator3D::~EyeCalibrator3D() { }
 //  
 // in principle, one can make a class just like this one for ANY set of vars
 // and ANY fitable funciton (as long as the fitable function class is also written)
-EyeCalibrator::EyeCalibrator(std::string _tag, shared_ptr<Variable> _eyeHraw, shared_ptr<Variable> _eyeVraw,
+EyeCalibrator3D::EyeCalibrator3D(const std::string &_tag, shared_ptr<Variable> _eyeHraw, shared_ptr<Variable> _eyeVraw,
                              shared_ptr<Variable> _eyeHcalibrated, shared_ptr<Variable> _eyeVcalibrated, const int order):Calibrator(_tag) {
     
     nextTimeToWarnUS = 0;
     lastHtimeUS = 0;
     
-    if (VERBOSE_EYE_CALIBRATORS) mprintf("mEyeCalibrator constructor has been called.");
+    if (VERBOSE_EYE_CALIBRATORS) mprintf("mEyeCalibrator3D constructor has been called.");
     
     // 1)  register inputs and outputs
     inputIndexH = (this->registerInput(_eyeHraw));
@@ -96,7 +88,7 @@ EyeCalibrator::EyeCalibrator(std::string _tag, shared_ptr<Variable> _eyeHraw, sh
 
 
 
-EyeCalibrator::~EyeCalibrator() {
+EyeCalibrator3D::~EyeCalibrator3D() {
     delete fitableFunctions;
     delete pairedEyeData;
 }
@@ -104,7 +96,7 @@ EyeCalibrator::~EyeCalibrator() {
 
 // JJD overrode the base class function on Nov 2, 2006, so that the eye calibrator 
 // will wait for paired input from BOTH channels before posting
-void EyeCalibrator::newDataReceived(int inputIndex, const Datum& data, 
+void EyeCalibrator3D::newDataReceived(int inputIndex, const Datum& data, 
                                     MWTime timeUS) {
     
     lock(); 
@@ -170,7 +162,7 @@ void EyeCalibrator::newDataReceived(int inputIndex, const Datum& data,
 
 
 // method to announce details about each sample that is acquired for calibration  
-void EyeCalibrator::announceCalibrationSample(int outputIndex, Datum SampledData, 
+void EyeCalibrator3D::announceCalibrationSample(int outputIndex, Datum SampledData, 
                                               Datum DesiredOutputData, Datum CalibratedOutputData, MWTime timeOfSampleUS) {
     
     // this method expects the H sample to arrive first and then the V sample
@@ -217,7 +209,7 @@ void EyeCalibrator::announceCalibrationSample(int outputIndex, Datum SampledData
 }
 
 
-void EyeCalibrator::announceCalibrationUpdate() {
+void EyeCalibrator3D::announceCalibrationUpdate() {
     
     Datum announceData(M_DICTIONARY, 4);
     announceData.addElement(CALIBRATOR_NAME,uniqueCalibratorName);
@@ -233,7 +225,7 @@ void EyeCalibrator::announceCalibrationUpdate() {
     
 }
 
-void EyeCalibrator::setPrivateParameters() { 
+void EyeCalibrator3D::setPrivateParameters() { 
     
     Datum privateData(M_DICTIONARY, 2);
     
@@ -258,7 +250,7 @@ void EyeCalibrator::setPrivateParameters() {
 
 // PUBLIC METHOD
 // triggered by any change to the calibrator request variable  
-void EyeCalibrator::notifyRequest(const Datum& dictionaryData, MWTime timeUS) {
+void EyeCalibrator3D::notifyRequest(const Datum& dictionaryData, MWTime timeUS) {
     
     lock(); // DDC added
     
@@ -301,7 +293,7 @@ void EyeCalibrator::notifyRequest(const Datum& dictionaryData, MWTime timeUS) {
 }
 
 // PUBLIC METHOD -- this means the private variable is locked -- DO NOT UPDATE IT!
-void EyeCalibrator::notifyPrivate(const Datum& dictionaryData, MWTime timeUS) {
+void EyeCalibrator3D::notifyPrivate(const Datum& dictionaryData, MWTime timeUS) {
     lock();
     tryToUseDataToSetParameters(dictionaryData); 
     unlock();
@@ -312,7 +304,7 @@ void EyeCalibrator::notifyPrivate(const Datum& dictionaryData, MWTime timeUS) {
 // this routine handles both "requests" and loading of private data (stored params)
 // if a request, then priuvate values are probably in need of update
 // if a load of private, then private values are OK, but I can check this.
-void EyeCalibrator::tryToUseDataToSetParameters(Datum dictionaryData) {
+void EyeCalibrator3D::tryToUseDataToSetParameters(Datum dictionaryData) {
     
     // check if this is a dictionary
     if (!(dictionaryData.getDataType() == M_DICTIONARY)) {

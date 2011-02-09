@@ -21,8 +21,6 @@ Plugin* getPlugin() {
 
 
 void EyeCalibrator3DPlugin::registerComponents(shared_ptr<ComponentRegistry> registry) {
-    // TODO: you need to customize the "signature" of the object your plugin will create
-    //       The signature is of the form component/type Ð(e.g. stimulus/circle, or iodevice/NIDAQ)
-    registry->registerFactory(std::string("stimulus/EyeCalibrator3D"),
+    registry->registerFactory(std::string("calibrator/standard_eye_calibrator_3d"),
                               (ComponentFactory *)(new EyeCalibrator3DFactory()));
 }

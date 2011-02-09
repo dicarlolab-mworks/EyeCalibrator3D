@@ -1,15 +1,15 @@
 <MWElements>
-    <MWElement name="Eye Calibrator">
-        <match_signature>calibrator[@type="standard_eye_calibrator"]</match_signature>
+    <MWElement name="Eye Calibrator 3D">
+        <match_signature>calibrator[@type="standard_eye_calibrator_3d"]</match_signature>
 
         <isa>Calibrator</isa>
 
         <description>
-            A IO calibrator specially tailored for eye movement signals.
+            An I/O calibrator specially tailored for 3-D eye movement signals.
         </description>
         
         <code>
-            <calibrator type="standard_eye_calibrator" eyeh_raw=""
+            <calibrator type="standard_eye_calibrator_3d" eyeh_raw=""
                                                        eyev_raw=""
                                                        eyeh_calibrated=""
                                                        eyev_calibrated=""/>
