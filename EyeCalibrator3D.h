@@ -15,19 +15,18 @@
 using namespace mw;
 
 
-class EyeCalibrator3D : public mw::Calibrator {
+class EyeCalibrator3D : public Calibrator {
     
 protected:
     int inputIndexH, inputIndexV, outputIndexH, outputIndexV;
     int HfunctionIndex, VfunctionIndex;
     MWTime HsampleTime;
-    MWTime lastHtimeUS;
-    MWTime nextTimeToWarnUS;
     PairedEyeData *pairedEyeData;
     
     Datum desiredH, desiredV;
     Datum sampledH, sampledV;
     Datum calibratedH, calibratedV;
+
     virtual void announceCalibrationUpdate();
     virtual void setPrivateParameters(); 
     virtual void announceCalibrationSample(int outputIndex, Datum SampledData, 
@@ -53,3 +52,26 @@ private:
 
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

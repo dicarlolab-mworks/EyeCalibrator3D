@@ -21,9 +21,6 @@
 EyeCalibrator3D::EyeCalibrator3D(const std::string &_tag, shared_ptr<Variable> _eyeHraw, shared_ptr<Variable> _eyeVraw,
                              shared_ptr<Variable> _eyeHcalibrated, shared_ptr<Variable> _eyeVcalibrated, const int order):Calibrator(_tag) {
     
-    nextTimeToWarnUS = 0;
-    lastHtimeUS = 0;
-    
     if (VERBOSE_EYE_CALIBRATORS) mprintf("mEyeCalibrator3D constructor has been called.");
     
     // 1)  register inputs and outputs
@@ -97,11 +94,11 @@ EyeCalibrator3D::~EyeCalibrator3D() {
 // JJD overrode the base class function on Nov 2, 2006, so that the eye calibrator 
 // will wait for paired input from BOTH channels before posting
 void EyeCalibrator3D::newDataReceived(int inputIndex, const Datum& data, 
-                                    MWTime timeUS) {
+                                    MWTime timeUS)
+{
+    Locker lock(*this);
     
-    lock(); 
     if (!initialized){
-        unlock();
         return;
     }
     
@@ -126,7 +123,6 @@ void EyeCalibrator3D::newDataReceived(int inputIndex, const Datum& data,
     else {
         mwarning(M_SYSTEM_MESSAGE_DOMAIN,
                  " **** EyeStatusMonitor::newDataReceived  Unknown input index");
-        unlock();
         return;
     }
     
@@ -154,8 +150,6 @@ void EyeCalibrator3D::newDataReceived(int inputIndex, const Datum& data,
             }
         }
     }
-    
-    unlock(); 
 }
 
 
@@ -252,12 +246,11 @@ void EyeCalibrator3D::setPrivateParameters() {
 // triggered by any change to the calibrator request variable  
 void EyeCalibrator3D::notifyRequest(const Datum& dictionaryData, MWTime timeUS) {
     
-    lock(); // DDC added
+    Locker lock(*this);
     
     // check if this calibrator should respond
     bool validRequest = checkRequest(dictionaryData);     // base class method (minimal checking)
     if (!validRequest){
-        unlock(); // DDC added
         return;                          // not meant for this calibrator or improperly formatted
     }
     
@@ -270,7 +263,6 @@ void EyeCalibrator3D::notifyRequest(const Datum& dictionaryData, MWTime timeUS) 
         case CALIBRATOR_NO_ACTION:
             mwarning(M_SYSTEM_MESSAGE_DOMAIN,
                      "Request sent to calibrator %s resulted in no action.", uniqueCalibratorName.c_str());
-            unlock(); // DDC added
             return;
             break;
             
@@ -289,14 +281,12 @@ void EyeCalibrator3D::notifyRequest(const Datum& dictionaryData, MWTime timeUS) 
             
     }
     
-    unlock(); // DDC added
 }
 
 // PUBLIC METHOD -- this means the private variable is locked -- DO NOT UPDATE IT!
 void EyeCalibrator3D::notifyPrivate(const Datum& dictionaryData, MWTime timeUS) {
-    lock();
+    Locker lock(*this);
     tryToUseDataToSetParameters(dictionaryData); 
-    unlock();
 }
 
 
@@ -372,3 +362,25 @@ void EyeCalibrator3D::tryToUseDataToSetParameters(Datum dictionaryData) {
     if (paramsChanged) reportParameterUpdate();
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
