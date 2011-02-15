@@ -137,6 +137,9 @@ void EyeCalibrator3D::newDataReceived(int inputIndex, const Datum& data,
     else if (inputIndex==inputIndexV) {
         pairedEyeData->putDataV(data, timeUS);
     }
+    else if (inputIndex==inputIndexD) {
+        pairedEyeData->putDataD(data, timeUS);
+    }
     else {
         mwarning(M_SYSTEM_MESSAGE_DOMAIN,
                  " **** EyeStatusMonitor::newDataReceived  Unknown input index");
@@ -147,15 +150,16 @@ void EyeCalibrator3D::newDataReceived(int inputIndex, const Datum& data,
     
     // if a pair is ready, pull it out and process it
     MWTime eyeTimeUS;
-    double eyeH, eyeV;
+    double eyeH, eyeV, eyeD;
     bool noErr = true;
     Datum calibData;
     
-    while (pairedEyeData->getAvailable(&eyeH, &eyeV, &eyeTimeUS)) {
+    while (pairedEyeData->getAvailable(&eyeH, &eyeV, &eyeD, &eyeTimeUS)) {
         
         // put the paired values in the input vector for the calibration function
         pUncalibratedData->setElement(inputIndexH,(Datum)eyeH);
         pUncalibratedData->setElement(inputIndexV,(Datum)eyeV);
+        pUncalibratedData->setElement(inputIndexD,(Datum)eyeD);
         
         
         for (int outputIndex=0;outputIndex<this->getNumOutputs();outputIndex++) {
