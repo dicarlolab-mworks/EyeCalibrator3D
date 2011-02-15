@@ -9,6 +9,9 @@
 
 #include "EyeCalibrator3D.h"
 
+#define CALIBRATOR_PARAMS_D "params_D"
+#define R_CALIBRATOR_PARAMS_D "params_D"
+
 #define VERBOSE_EYE_CALIBRATORS 0
 
 
@@ -18,31 +21,44 @@
 //  
 // in principle, one can make a class just like this one for ANY set of vars
 // and ANY fitable funciton (as long as the fitable function class is also written)
-EyeCalibrator3D::EyeCalibrator3D(const std::string &_tag, shared_ptr<Variable> _eyeHraw, shared_ptr<Variable> _eyeVraw,
-                             shared_ptr<Variable> _eyeHcalibrated, shared_ptr<Variable> _eyeVcalibrated, const int order):Calibrator(_tag) {
+EyeCalibrator3D::EyeCalibrator3D(const std::string &_tag,
+                                 shared_ptr<Variable> _eyeHraw,
+                                 shared_ptr<Variable> _eyeVraw,
+                                 shared_ptr<Variable> _eyeDraw,
+                                 shared_ptr<Variable> _eyeHcalibrated,
+                                 shared_ptr<Variable> _eyeVcalibrated,
+                                 shared_ptr<Variable> _eyeDcalibrated,
+                                 int order) :
+    Calibrator(_tag)
+{
     
     if (VERBOSE_EYE_CALIBRATORS) mprintf("mEyeCalibrator3D constructor has been called.");
     
     // 1)  register inputs and outputs
     inputIndexH = (this->registerInput(_eyeHraw));
     inputIndexV = (this->registerInput(_eyeVraw));
+    inputIndexD = (this->registerInput(_eyeDraw));
     outputIndexH = (this->registerOutput(_eyeHcalibrated));
     outputIndexV = (this->registerOutput(_eyeVcalibrated));
+    outputIndexD = (this->registerOutput(_eyeDcalibrated));
     this->initialize();     // create memory for the expected data, averagers, and fitable functions
     
     // 2) create and assign a specific fitableFunction for each output 
     shared_ptr<FitableFunction> fitableFunctionH;
     shared_ptr<FitableFunction> fitableFunctionV;
+    shared_ptr<FitableFunction> fitableFunctionD;
     //  In this case, they are identical, but they do not need to be the same. (any fitable function object will work here)
     // default values for parameters are established in here.
     switch(order) {
         case 1:
             fitableFunctionH = shared_ptr<FitableFunction>(new FirstOrderPolynomialFitableFunction(this->getNumInputs(),true,inputIndexH)); 
             fitableFunctionV = shared_ptr<FitableFunction>(new FirstOrderPolynomialFitableFunction(this->getNumInputs(),true,inputIndexV)); 
+            fitableFunctionD = shared_ptr<FitableFunction>(new FirstOrderPolynomialFitableFunction(this->getNumInputs(),true,inputIndexD)); 
             break;
         case 2:
             fitableFunctionH = shared_ptr<FitableFunction>(new SecondOrderPolynomialFitableFunction(this->getNumInputs(),true,inputIndexH)); 
             fitableFunctionV = shared_ptr<FitableFunction>(new SecondOrderPolynomialFitableFunction(this->getNumInputs(),true,inputIndexV)); 
+            fitableFunctionD = shared_ptr<FitableFunction>(new SecondOrderPolynomialFitableFunction(this->getNumInputs(),true,inputIndexD)); 
             break;
         default:
             merror(M_PARSER_MESSAGE_DOMAIN,"%s has an unsupported order (%d)", _tag.c_str(), order);
@@ -51,6 +67,7 @@ EyeCalibrator3D::EyeCalibrator3D(const std::string &_tag, shared_ptr<Variable> _
     
     HfunctionIndex = (fitableFunctions->addReference(outputIndexH, fitableFunctionH))-1;
     VfunctionIndex = (fitableFunctions->addReference(outputIndexV, fitableFunctionV))-1;
+    DfunctionIndex = (fitableFunctions->addReference(outputIndexD, fitableFunctionD))-1;
     
     //     // 2) create and assign a specific fitableFunction for each output 
     //    //  In this case, they are identical, but they do not need to be the same. (any fitable function object will work here)
@@ -182,17 +199,20 @@ void EyeCalibrator3D::announceCalibrationSample(int outputIndex, Datum SampledDa
     announceData.addElement(CALIBRATOR_NAME,uniqueCalibratorName);    // char
     announceData.addElement(CALIBRATOR_ACTION,CALIBRATOR_ACTION_SAMPLE);
     
-    Datum temp(M_LIST, 2);
+    Datum temp(M_LIST, 3);
     temp.setElement(0,sampledH);
     temp.setElement(1,sampledV);
+    temp.setElement(2,sampledD);
     announceData.addElement(CALIBRATOR_SAMPLE_SAMPLED_HV,temp);    // input values
     
     temp.setElement(0,desiredH);
     temp.setElement(1,desiredV);
+    temp.setElement(2,desiredD);
     announceData.addElement(CALIBRATOR_SAMPLE_DESIRED_HV,temp);    // gold standard values
     
     temp.setElement(0,calibratedH);
     temp.setElement(1,calibratedV);
+    temp.setElement(2,calibratedD);
     announceData.addElement(CALIBRATOR_SAMPLE_CALIBRATED_HV,temp); // values produced from input values using current calibration
     
     //announceData.addElement("JJDtest",desiredH); // values produced from input values using current calibration
@@ -205,7 +225,7 @@ void EyeCalibrator3D::announceCalibrationSample(int outputIndex, Datum SampledDa
 
 void EyeCalibrator3D::announceCalibrationUpdate() {
     
-    Datum announceData(M_DICTIONARY, 4);
+    Datum announceData(M_DICTIONARY, 5);
     announceData.addElement(CALIBRATOR_NAME,uniqueCalibratorName);
     announceData.addElement(CALIBRATOR_ACTION,CALIBRATOR_ACTION_UPDATE_PARAMS);
     
@@ -215,19 +235,25 @@ void EyeCalibrator3D::announceCalibrationUpdate() {
     Datum paramsV = (fitableFunctions->getElement(VfunctionIndex))->getParameters();
     announceData.addElement(CALIBRATOR_PARAMS_V,paramsV);   // M_LIST
     
+    Datum paramsD = (fitableFunctions->getElement(DfunctionIndex))->getParameters();
+    announceData.addElement(CALIBRATOR_PARAMS_D,paramsD);   // M_LIST
+    
     announce(announceData);    // announce things here using method from Announcable (will set values in announce variable)
     
 }
 
 void EyeCalibrator3D::setPrivateParameters() { 
     
-    Datum privateData(M_DICTIONARY, 2);
+    Datum privateData(M_DICTIONARY, 3);
     
     Datum paramsH = (fitableFunctions->getElement(HfunctionIndex))->getParameters();
     privateData.addElement(R_CALIBRATOR_PARAMS_H,paramsH);   // M_LIST
     
     Datum paramsV = (fitableFunctions->getElement(VfunctionIndex))->getParameters();
     privateData.addElement(R_CALIBRATOR_PARAMS_V,paramsV);   // M_LIST
+    
+    Datum paramsD = (fitableFunctions->getElement(DfunctionIndex))->getParameters();
+    privateData.addElement(R_CALIBRATOR_PARAMS_D,paramsD);   // M_LIST
     
     storePrivateData(privateData);   // base class method 
     
@@ -355,6 +381,30 @@ void EyeCalibrator3D::tryToUseDataToSetParameters(Datum dictionaryData) {
         return;
     }
     noErr = (fitableFunctions->getElement(VfunctionIndex))->setParameters(paramsV); 
+    if (noErr) paramsChanged = true;     // params have been updated
+    
+    
+    //  D params ================================================
+    if (!(dictionaryData.hasKey(R_CALIBRATOR_PARAMS_D))) {
+        mwarning(M_SYSTEM_MESSAGE_DOMAIN,
+                 "Data processed to update params of calibrator %s without proper params filed was ignored.", uniqueCalibratorName.c_str());
+        return;
+    }
+    paramData = dictionaryData.getElement(R_CALIBRATOR_PARAMS_D);
+    
+    // check if vector and correct length
+    if  (paramData.getDataType() != M_LIST) {
+        mwarning(M_SYSTEM_MESSAGE_DOMAIN,
+                 "Data processed to update params of calibrator %s that did not contain vector in params field was ignored.", uniqueCalibratorName.c_str());
+        return;
+    }
+    Datum paramsD = paramData;
+    if (paramsD.getNElements() != (fitableFunctions->getElement(DfunctionIndex))->getNumParameters() ) {
+        mwarning(M_SYSTEM_MESSAGE_DOMAIN,
+                 "Data processed to update params of calibrator %s that did not contain expected number of params was ignored.", uniqueCalibratorName.c_str());
+        return;
+    }
+    noErr = (fitableFunctions->getElement(DfunctionIndex))->setParameters(paramsD); 
     if (noErr) paramsChanged = true;     // params have been updated
     
     // if any params were updated, announce the full set of current parameters

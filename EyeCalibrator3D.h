@@ -18,14 +18,15 @@ using namespace mw;
 class EyeCalibrator3D : public Calibrator {
     
 protected:
-    int inputIndexH, inputIndexV, outputIndexH, outputIndexV;
-    int HfunctionIndex, VfunctionIndex;
+    int inputIndexH, inputIndexV, inputIndexD;
+    int outputIndexH, outputIndexV, outputIndexD;
+    int HfunctionIndex, VfunctionIndex, DfunctionIndex;
     MWTime HsampleTime;
     PairedEyeData *pairedEyeData;
     
-    Datum desiredH, desiredV;
-    Datum sampledH, sampledV;
-    Datum calibratedH, calibratedV;
+    Datum desiredH, desiredV, desiredD;
+    Datum sampledH, sampledV, sampledD;
+    Datum calibratedH, calibratedV, calibratedD;
 
     virtual void announceCalibrationUpdate();
     virtual void setPrivateParameters(); 
@@ -35,8 +36,14 @@ protected:
     
     
 public:
-    EyeCalibrator3D(const std::string &_tag, shared_ptr<Variable> _eyeHraw, shared_ptr<Variable> _eyeVraw,
-                  shared_ptr<Variable> _eyeHcalibrated, shared_ptr<Variable> _eyeVcalibrated, const int order=2);
+    EyeCalibrator3D(const std::string &_tag,
+                    shared_ptr<Variable> _eyeHraw,
+                    shared_ptr<Variable> _eyeVraw,
+                    shared_ptr<Variable> _eyeDraw,
+                    shared_ptr<Variable> _eyeHcalibrated,
+                    shared_ptr<Variable> _eyeVcalibrated,
+                    shared_ptr<Variable> _eyeDcalibrated,
+                    int order = 2);
     virtual ~EyeCalibrator3D();
     virtual void notifyRequest(const Datum& original_data, MWTime timeUS);
     virtual void notifyPrivate(const Datum& original_data, MWTime timeUS);
