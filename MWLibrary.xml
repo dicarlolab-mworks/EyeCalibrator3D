@@ -10,9 +10,11 @@
         
         <code>
             <calibrator type="standard_eye_calibrator_3d" eyeh_raw=""
-                                                       eyev_raw=""
-                                                       eyeh_calibrated=""
-                                                       eyev_calibrated=""/>
+                                                          eyev_raw=""
+                                                          eyed_raw=""
+                                                          eyeh_calibrated=""
+                                                          eyev_calibrated=""
+                                                          eyed_calibrated=""/>
         </code>
     </MWElement>
 </MWElements>
