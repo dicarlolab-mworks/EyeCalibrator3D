@@ -9,8 +9,12 @@
 
 #include "EyeCalibrator3D.h"
 
-#define CALIBRATOR_PARAMS_D "params_D"
-#define R_CALIBRATOR_PARAMS_D "params_D"
+#define CALIBRATOR_PARAMS_D     "params_D"
+#define R_CALIBRATOR_PARAMS_D   "params_D"
+
+#define CALIBRATOR_SAMPLE_SAMPLED_HVD       "sampledHVD"
+#define CALIBRATOR_SAMPLE_DESIRED_HVD       "desiredHVD"
+#define CALIBRATOR_SAMPLE_CALIBRATED_HVD    "calibratedHVD"  
 
 #define VERBOSE_EYE_CALIBRATORS 0
 
@@ -32,7 +36,7 @@ EyeCalibrator3D::EyeCalibrator3D(const std::string &_tag,
     Calibrator(_tag)
 {
     
-    if (VERBOSE_EYE_CALIBRATORS) mprintf("mEyeCalibrator3D constructor has been called.");
+    if (VERBOSE_EYE_CALIBRATORS) mprintf("EyeCalibrator3D constructor has been called.");
     
     // 1)  register inputs and outputs
     inputIndexH = (this->registerInput(_eyeHraw));
@@ -180,21 +184,31 @@ void EyeCalibrator3D::newDataReceived(int inputIndex, const Datum& data,
 void EyeCalibrator3D::announceCalibrationSample(int outputIndex, Datum SampledData, 
                                               Datum DesiredOutputData, Datum CalibratedOutputData, MWTime timeOfSampleUS) {
     
-    // this method expects the H sample to arrive first and then the V sample
-    if (outputIndex == outputIndexH) {  // store data and wait for v (announce as pair)
+    // this method expects the H sample to arrive first, then the V sample, then the D sample
+    if (outputIndex == outputIndexH) {  // store data and wait for v (announce together)
         desiredH = DesiredOutputData;
         calibratedH = CalibratedOutputData;
         sampledH = (&SampledData)->getElement(inputIndexH);
         HsampleTime = timeOfSampleUS;
         return;
     }
-    if (outputIndex == outputIndexV) {  // store data and wait for v (announce as pair)
+    if (outputIndex == outputIndexV) {  // store data and wait for d (announce together)
         desiredV = DesiredOutputData;
         calibratedV = CalibratedOutputData;
         sampledV = (&SampledData)->getElement(inputIndexV);
         if ( (abs(timeOfSampleUS-HsampleTime)) > 10000) {
             mwarning(M_SYSTEM_MESSAGE_DOMAIN,
                      "Calibrator sample announce detected large time differential between h and v samples.  Values likely inaccurate.");
+        }
+        return;
+    }
+    if (outputIndex == outputIndexD) {
+        desiredD = DesiredOutputData;
+        calibratedD = CalibratedOutputData;
+        sampledD = (&SampledData)->getElement(inputIndexD);
+        if ( (abs(timeOfSampleUS-HsampleTime)) > 10000) {
+            mwarning(M_SYSTEM_MESSAGE_DOMAIN,
+                     "Calibrator sample announce detected large time differential between h and d samples.  Values likely inaccurate.");
         }
     }
     
@@ -207,21 +221,21 @@ void EyeCalibrator3D::announceCalibrationSample(int outputIndex, Datum SampledDa
     temp.setElement(0,sampledH);
     temp.setElement(1,sampledV);
     temp.setElement(2,sampledD);
-    announceData.addElement(CALIBRATOR_SAMPLE_SAMPLED_HV,temp);    // input values
+    announceData.addElement(CALIBRATOR_SAMPLE_SAMPLED_HVD,temp);    // input values
     
     temp.setElement(0,desiredH);
     temp.setElement(1,desiredV);
     temp.setElement(2,desiredD);
-    announceData.addElement(CALIBRATOR_SAMPLE_DESIRED_HV,temp);    // gold standard values
+    announceData.addElement(CALIBRATOR_SAMPLE_DESIRED_HVD,temp);    // gold standard values
     
     temp.setElement(0,calibratedH);
     temp.setElement(1,calibratedV);
     temp.setElement(2,calibratedD);
-    announceData.addElement(CALIBRATOR_SAMPLE_CALIBRATED_HV,temp); // values produced from input values using current calibration
+    announceData.addElement(CALIBRATOR_SAMPLE_CALIBRATED_HVD,temp); // values produced from input values using current calibration
     
     //announceData.addElement("JJDtest",desiredH); // values produced from input values using current calibration
     
-    if (VERBOSE_EYE_CALIBRATORS) mprintf("mCalibrator::announceCalibrationSample  Announcing now");
+    if (VERBOSE_EYE_CALIBRATORS) mprintf("Calibrator::announceCalibrationSample  Announcing now");
     announce(announceData);    // announce things here using method from Announcable
     
 }
