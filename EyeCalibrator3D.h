@@ -11,6 +11,7 @@
 #define EyeCalibrator3D_H_
 
 #include <MWorksCore/EyeCalibrators.h>
+#include "PairedEyeData3D.h"
 
 using namespace mw;
 
@@ -22,7 +23,7 @@ protected:
     int outputIndexH, outputIndexV, outputIndexD;
     int HfunctionIndex, VfunctionIndex, DfunctionIndex;
     MWTime HsampleTime;
-    PairedEyeData *pairedEyeData;
+    PairedEyeData3D *pairedEyeData;
     
     Datum desiredH, desiredV, desiredD;
     Datum sampledH, sampledV, sampledD;

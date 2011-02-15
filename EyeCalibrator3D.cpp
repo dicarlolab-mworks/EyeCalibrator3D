@@ -94,7 +94,7 @@ EyeCalibrator3D::EyeCalibrator3D(const std::string &_tag,
     
     // the eye calibrator uses this object to buffer and pair eye samples together.
     int buffer_size = M_ASSUMED_EYE_SAMPLES_PER_MS * M_MAX_EYE_BUFFER_SIZE_MS; 
-    pairedEyeData = new PairedEyeData(buffer_size);
+    pairedEyeData = new PairedEyeData3D(buffer_size);
     
     
 }
