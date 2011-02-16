@@ -58,7 +58,7 @@ shared_ptr<mw::Component> EyeCalibrator3DFactory::createObject(std::map<std::str
                                                                        eyeh_calibrated,
                                                                        eyev_calibrated,
                                                                        eyed_calibrated,
-                                                                       2));
+                                                                       order));
 
     return newEyeCalibrator3D;
 }

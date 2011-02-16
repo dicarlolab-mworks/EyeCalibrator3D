@@ -23,7 +23,11 @@ Plugin* getPlugin() {
 
 void EyeCalibrator3DPlugin::registerComponents(shared_ptr<ComponentRegistry> registry) {
     registry->registerFactory(std::string("calibrator/standard_eye_calibrator_3d"),
-                              (ComponentFactory *)(new EyeCalibrator3DFactory()));
+                              (ComponentFactory *)(new EyeCalibrator3DFactory(2)));
+
+    registry->registerFactory(std::string("calibrator/linear_eye_calibrator_3d"),
+                              (ComponentFactory *)(new EyeCalibrator3DFactory(1)));
+
     registry->registerFactory(std::string("calibrator/fake_calibratable_object_3d"),
                               (ComponentFactory *)(new FakeCalibratableObject3DFactory()));
 }

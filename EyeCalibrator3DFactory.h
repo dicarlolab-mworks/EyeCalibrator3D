@@ -16,8 +16,15 @@ using namespace mw;
 
 
 class EyeCalibrator3DFactory : public ComponentFactory {
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
+
+private:
+    int order;
+    
+public:
+    EyeCalibrator3DFactory(int order) : order(order) { }
+    virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
                                                    ComponentRegistry *reg);
+
 };
 
 

@@ -9,13 +9,32 @@
         </description>
         
         <code>
-            <calibrator type="standard_eye_calibrator_3d" tag="Eye Calibrator 3D"
+            <calibrator type="standard_eye_calibrator_3d" tag="New Eye Calibrator 3D"
                                                           eyeh_raw=""
                                                           eyev_raw=""
                                                           eyed_raw=""
                                                           eyeh_calibrated=""
                                                           eyev_calibrated=""
                                                           eyed_calibrated=""/>
+        </code>
+    </MWElement>
+    <MWElement name="Linear Eye Calibrator 3D">
+        <match_signature>calibrator[@type="linear_eye_calibrator_3d"]</match_signature>
+
+        <isa>Calibrator</isa>
+
+        <description>
+            An I/O calibrator specially tailored for 3-D eye movement signals.
+        </description>
+        
+        <code>
+            <calibrator type="linear_eye_calibrator_3d" tag="New Linear Eye Calibrator 3D"
+                                                        eyeh_raw=""
+                                                        eyev_raw=""
+                                                        eyed_raw=""
+                                                        eyeh_calibrated=""
+                                                        eyev_calibrated=""
+                                                        eyed_calibrated=""/>
         </code>
     </MWElement>
     <MWElement name="Fake Calibratable Object 3D">
@@ -28,7 +47,7 @@
         </description>
         
         <code>
-            <calibrator type="fake_calibratable_object_3d" tag="Fake Calibratable Object 3D"
+            <calibrator type="fake_calibratable_object_3d" tag="New Fake Calibratable Object 3D"
                                                            x_value=""
                                                            y_value=""
                                                            z_value=""/>
