@@ -9,12 +9,29 @@
         </description>
         
         <code>
-            <calibrator type="standard_eye_calibrator_3d" eyeh_raw=""
+            <calibrator type="standard_eye_calibrator_3d" tag="Eye Calibrator 3D"
+                                                          eyeh_raw=""
                                                           eyev_raw=""
                                                           eyed_raw=""
                                                           eyeh_calibrated=""
                                                           eyev_calibrated=""
                                                           eyed_calibrated=""/>
+        </code>
+    </MWElement>
+    <MWElement name="Fake Calibratable Object 3D">
+        <match_signature>calibrator[@type="fake_calibratable_object_3d"]</match_signature>
+
+        <isa>Calibrator</isa>
+
+        <description>
+            A fake calibratable object used for testing 3-D calibrators.
+        </description>
+        
+        <code>
+            <calibrator type="fake_calibratable_object_3d" tag="Fake Calibratable Object 3D"
+                                                           x_value=""
+                                                           y_value=""
+                                                           z_value=""/>
         </code>
     </MWElement>
 </MWElements>

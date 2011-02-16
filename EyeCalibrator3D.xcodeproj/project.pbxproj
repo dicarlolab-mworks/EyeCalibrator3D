@@ -40,6 +40,8 @@
 		BFBFB0D610446C180019216B /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBFB0D510446C180019216B /* MWorksCore.framework */; };
 		E110CDCD130B121E002AF46E /* PairedEyeData3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E110CDCC130B121E002AF46E /* PairedEyeData3D.cpp */; };
 		E12A26FD1201E31400CE8C55 /* EyeCalibrator3D.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* EyeCalibrator3D.bundle */; };
+		E1689610130C1CD100416C4F /* FakeCalibratableObject3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E168960F130C1CD100416C4F /* FakeCalibratableObject3D.cpp */; };
+		E1689636130C20FF00416C4F /* FakeCalibratableObject3DFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1689635130C20FF00416C4F /* FakeCalibratableObject3DFactory.cpp */; };
 		E1FCD4CF11DAB1AE0037E6FA /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FCD4CE11DAB1AE0037E6FA /* OpenGL.framework */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +91,10 @@
 		BFBFB0D510446C180019216B /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		E110CDCB130B121E002AF46E /* PairedEyeData3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PairedEyeData3D.h; sourceTree = "<group>"; };
 		E110CDCC130B121E002AF46E /* PairedEyeData3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PairedEyeData3D.cpp; sourceTree = "<group>"; };
+		E168960E130C1CD100416C4F /* FakeCalibratableObject3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeCalibratableObject3D.h; sourceTree = "<group>"; };
+		E168960F130C1CD100416C4F /* FakeCalibratableObject3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeCalibratableObject3D.cpp; sourceTree = "<group>"; };
+		E1689634130C20FF00416C4F /* FakeCalibratableObject3DFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeCalibratableObject3DFactory.h; sourceTree = "<group>"; };
+		E1689635130C20FF00416C4F /* FakeCalibratableObject3DFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeCalibratableObject3DFactory.cpp; sourceTree = "<group>"; };
 		E1FCD4CE11DAB1AE0037E6FA /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -145,6 +151,10 @@
 				5CFE59190F571B15000C7F30 /* EyeCalibrator3D.cpp */,
 				5CF9AEB80FD5795C00F405F6 /* EyeCalibrator3DFactory.h */,
 				5CF9AEB70FD5795C00F405F6 /* EyeCalibrator3DFactory.cpp */,
+				E168960E130C1CD100416C4F /* FakeCalibratableObject3D.h */,
+				E168960F130C1CD100416C4F /* FakeCalibratableObject3D.cpp */,
+				E1689634130C20FF00416C4F /* FakeCalibratableObject3DFactory.h */,
+				E1689635130C20FF00416C4F /* FakeCalibratableObject3DFactory.cpp */,
 				5CF9AEBA0FD5795C00F405F6 /* EyeCalibrator3DPlugin.h */,
 				5CF9AEB90FD5795C00F405F6 /* EyeCalibrator3DPlugin.cpp */,
 			);
@@ -267,6 +277,8 @@
 				5CF9AEBB0FD5795C00F405F6 /* EyeCalibrator3DFactory.cpp in Sources */,
 				5CF9AEBC0FD5795C00F405F6 /* EyeCalibrator3DPlugin.cpp in Sources */,
 				E110CDCD130B121E002AF46E /* PairedEyeData3D.cpp in Sources */,
+				E1689610130C1CD100416C4F /* FakeCalibratableObject3D.cpp in Sources */,
+				E1689636130C20FF00416C4F /* FakeCalibratableObject3DFactory.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
