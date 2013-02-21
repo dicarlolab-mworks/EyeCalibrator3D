@@ -38,11 +38,11 @@
 		5CFCAB0A1105FB4C007CE55F /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCAB091105FB4C007CE55F /* MWLibrary.xml */; };
 		5CFE591A0F571B15000C7F30 /* EyeCalibrator3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE59190F571B15000C7F30 /* EyeCalibrator3D.cpp */; };
 		BFBFB0D610446C180019216B /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBFB0D510446C180019216B /* MWorksCore.framework */; };
+		E1094C8316D6902F0006E7AE /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1094C8216D6902F0006E7AE /* libboost_system.a */; };
 		E110CDCD130B121E002AF46E /* PairedEyeData3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E110CDCC130B121E002AF46E /* PairedEyeData3D.cpp */; };
 		E12A26FD1201E31400CE8C55 /* EyeCalibrator3D.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* EyeCalibrator3D.bundle */; };
 		E1689610130C1CD100416C4F /* FakeCalibratableObject3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E168960F130C1CD100416C4F /* FakeCalibratableObject3D.cpp */; };
 		E1689636130C20FF00416C4F /* FakeCalibratableObject3DFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1689635130C20FF00416C4F /* FakeCalibratableObject3DFactory.cpp */; };
-		E1FCD4CF11DAB1AE0037E6FA /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FCD4CE11DAB1AE0037E6FA /* OpenGL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,7 +66,7 @@
 		E12A26F71201E2FB00CE8C55 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "$(PLUGINS_DIR)";
+			dstPath = "$(MW_PLUGINS_DIR)";
 			dstSubfolderSpec = 0;
 			files = (
 				E12A26FD1201E31400CE8C55 /* EyeCalibrator3D.bundle in CopyFiles */,
@@ -89,13 +89,13 @@
 		8D5B49B6048680CD000E48DA /* EyeCalibrator3D.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EyeCalibrator3D.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* EyeCalibrator3D-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "EyeCalibrator3D-Info.plist"; sourceTree = "<group>"; };
 		BFBFB0D510446C180019216B /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E1094C8216D6902F0006E7AE /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E110CDCB130B121E002AF46E /* PairedEyeData3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PairedEyeData3D.h; sourceTree = "<group>"; };
 		E110CDCC130B121E002AF46E /* PairedEyeData3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PairedEyeData3D.cpp; sourceTree = "<group>"; };
 		E168960E130C1CD100416C4F /* FakeCalibratableObject3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeCalibratableObject3D.h; sourceTree = "<group>"; };
 		E168960F130C1CD100416C4F /* FakeCalibratableObject3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeCalibratableObject3D.cpp; sourceTree = "<group>"; };
 		E1689634130C20FF00416C4F /* FakeCalibratableObject3DFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeCalibratableObject3DFactory.h; sourceTree = "<group>"; };
 		E1689635130C20FF00416C4F /* FakeCalibratableObject3DFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeCalibratableObject3DFactory.cpp; sourceTree = "<group>"; };
-		E1FCD4CE11DAB1AE0037E6FA /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +104,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFBFB0D610446C180019216B /* MWorksCore.framework in Frameworks */,
-				E1FCD4CF11DAB1AE0037E6FA /* OpenGL.framework in Frameworks */,
+				E1094C8316D6902F0006E7AE /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,19 +119,19 @@
 				5CFE591C0F571BEB000C7F30 /* Editor Definitions */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
-				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				089C1671FE841209C02AAC07 /* Frameworks & Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 			);
 			name = EyeCalibrator3D;
 			sourceTree = "<group>";
 		};
-		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+		089C1671FE841209C02AAC07 /* Frameworks & Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
-				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+				BFBFB0D510446C180019216B /* MWorksCore.framework */,
+				E1094C8216D6902F0006E7AE /* libboost_system.a */,
 			);
-			name = "Frameworks and Libraries";
+			name = "Frameworks & Libraries";
 			sourceTree = "<group>";
 		};
 		089C167CFE841241C02AAC07 /* Resources */ = {
@@ -159,22 +159,6 @@
 				5CF9AEB90FD5795C00F405F6 /* EyeCalibrator3DPlugin.cpp */,
 			);
 			name = Classes;
-			sourceTree = "<group>";
-		};
-		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				BFBFB0D510446C180019216B /* MWorksCore.framework */,
-				E1FCD4CE11DAB1AE0037E6FA /* OpenGL.framework */,
-			);
-			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
@@ -301,11 +285,9 @@
 		1DEB913B08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = EyeCalibrator3D_Prefix.pch;
 				INFOPLIST_FILE = "EyeCalibrator3D-Info.plist";
-				INSTALL_PATH = "$(PLUGINS_DIR)";
 				PRODUCT_NAME = EyeCalibrator3D;
 				WRAPPER_EXTENSION = bundle;
 			};
@@ -315,18 +297,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5C78EE6B115D02EE00151A76 /* Development.xcconfig */;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				PREBINDING = NO;
 			};
 			name = Development;
 		};
 		5CFCAB1F11060986007CE55F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = Everything;
 			};
 			name = Development;
@@ -334,9 +310,6 @@
 		E12A26F91201E2FB00CE8C55 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = Install;
 			};
 			name = Development;
